@@ -33,7 +33,7 @@ def test_migrated_notes_reject_empty_content(path: Path) -> None:
     with pytest.raises(IntegrityError), engine.begin() as connection:
         connection.execute(
             text(
-                "INSERT INTO notes (id, content, created_at, created_tz) "
-                "VALUES ('1', '  ', '2026-01-01', 'UTC')"
+                "INSERT INTO notes (id, content, created_at) "
+                "VALUES ('1', '  ', '2026-01-01')"
             )
         )
