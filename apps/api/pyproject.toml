@@ -1,0 +1,19 @@
+[project]
+name = "gist-api"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.165.0",
+    "gist-core",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+gist-api = "gist_api.main:run"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+gist-core = { workspace = true }
