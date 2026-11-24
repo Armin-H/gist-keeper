@@ -26,6 +26,5 @@ class Note(Base):
         Text, CheckConstraint("length(trim(content)) > 0", name="content_not_empty")
     )
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utc_now
+        DateTime(timezone=False), default=utc_now
     )
-    created_tz: Mapped[str]

@@ -1,10 +1,7 @@
 from pathlib import Path
 
-import gist_core
 import pytest
-from alembic import command
-from alembic.config import Config
-from gist_core.db import create_db_engine
+from gist_core.db import create_db_engine, upgrade_db
 from sqlalchemy import inspect, text
 from sqlalchemy.exc import IntegrityError
 
@@ -12,12 +9,7 @@ from sqlalchemy.exc import IntegrityError
 @pytest.fixture
 def path(tmp_path: Path) -> Path:
     path = tmp_path / "gist-keeper.db"
-    config = Config()
-    config.set_main_option(
-        "script_location", str(Path(gist_core.__file__).parent / "migrations")
-    )
-    config.attributes["path"] = path
-    command.upgrade(config, "head")
+    upgrade_db(path)
     return path
 
 
@@ -33,7 +25,7 @@ def test_migrated_notes_reject_empty_content(path: Path) -> None:
     with pytest.raises(IntegrityError), engine.begin() as connection:
         connection.execute(
             text(
-                "INSERT INTO notes (id, content, created_at, created_tz) "
-                "VALUES ('1', '  ', '2026-01-01', 'UTC')"
+                "INSERT INTO notes (id, content, created_at) "
+                "VALUES ('1', '  ', '2026-01-01')"
             )
         )
