@@ -13,3 +13,6 @@ dev = [
     "pytest>=9.2.0",
     "ruff>=0.17.4",
 ]
+
+[tool.mypy]
+strict = true
